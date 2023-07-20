@@ -1,8 +1,16 @@
 import discord
 import random
+from discord_interactions import client
 from discord_slash import SlashCommand, SlashContext
+from discord_slash.model import ButtonStyle
+from discord_slash.utils import manage_components
+from discord_slash.utils.manage_commands import create_option, create_choice
 
-client = discord.Client()
+intents = discord.Intents.default()
+intents.messages = True
+intents.components = True
+
+client = discord.Client(intents=intents)
 slash = SlashCommand(client, sync_commands=True)
 
 @client.event
@@ -29,18 +37,12 @@ def get_random_fact():
     return fact
 
 def create_button():
-    return [
-        {
-            "type": 1,
-            "components": [
-                {
-                    "type": 2,
-                    "label": "Get another fact",
-                    "style": 1,
-                    "custom_id": "get_fact"
-                }
-            ]
-        }
-    ]
+    return manage_components.create_actionrow(
+        manage_components.create_button(
+            style=ButtonStyle.PRIMARY,
+            label="Get another fact",
+            custom_id="get_fact"
+        )
+    )
 
-client.run('YOUR_DISCORD_TOKEN')
+client.run('YOUR_BOT_TOKEN')
