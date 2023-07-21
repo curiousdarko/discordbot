@@ -1,15 +1,14 @@
-# youtube.com/@developerlaborotory
 import discord
 from discord.ext import commands
+import random
 
-intents = discord.Intents.default()
-intents.messages = True
+intents = discord.Intents.all()
 
-bot = commands.Bot(command_prefix="/", intents=intents) #change the command prefix if u want, for example if you make it ? the command wil now be ?fact instead of /fact
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    print('We have liftoff!')
+    print('Bot is ready.')
 
 @bot.command()
 async def fact(ctx):
@@ -18,9 +17,9 @@ async def fact(ctx):
     await ctx.send(embed=embed)
 
 def get_random_fact():
-    with open('facts.txt', 'r') as file:
+    with open("facts.txt", "r") as file:
         facts = file.readlines()
-        fact = random.choice(facts).strip()
+    fact = random.choice(facts).strip()
     return fact
 
-bot.run('YOUR_BOT_TOKEN')
+bot.run("insert_bot_token") # do not remove the speech marks
